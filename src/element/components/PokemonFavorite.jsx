@@ -35,7 +35,7 @@ const GridFigure = styled(({...props }) => (
 
 export const PokemonFavorite = () => {
 
-  const { active, isSaving } = useSelector( state => state.element );
+  const { active } = useSelector( state => state.element );
 
   const [ favorite ] = useFetchPokemon( active );
 
@@ -83,15 +83,13 @@ export const PokemonFavorite = () => {
         justifyContent="center"
         alignItems="center"
         style={{minHeight:'300px'}}>
-          { isSaving ? 
-            <CircularProgress style={{margin:'0 0 0 40px'}} color='warning' /> : 
           <img 
             style={{ width: '70%', marginTop: '-40px', marginLeft: '40px'}} 
             src={favorite.img} 
-            alt={favorite.name} /> }
+            alt={favorite.name} />
       </Box>
     </Grid>
-    <Grid style={{m: '0 0 10px 0'}} xs={12} md={6}>
+    <Grid style={{m: '0 0 10px 0'}} xs={12} md={6} item >
       <Grid container spacing={0}>
         <GridName>ID</GridName>
         <GridFigure> {favorite.id} </GridFigure>
