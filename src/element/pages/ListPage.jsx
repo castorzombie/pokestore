@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { PokemonCard } from './../views'
 import { PokesLayout } from '../layout/PokesLayout';
 import { useFetchPokemon } from '../../hooks/useFetchPokemon';
+import { useEffect } from 'react';
 
 export const ListPage = () => {
 
@@ -12,6 +13,9 @@ export const ListPage = () => {
     const { active } = useSelector( state => state.element );
 
     const [ pokemon ] = useFetchPokemon( active );
+
+    useEffect( () => {
+    },[pokemon])
 
     return (
       <PokesLayout>

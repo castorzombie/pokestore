@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppBar, Grid, IconButton, Toolbar, Box } from '@mui/material';
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material';

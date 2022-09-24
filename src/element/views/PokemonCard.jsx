@@ -5,18 +5,10 @@ import {
     Card,
     Box,
     CardContent,
-    CardActions, 
     CardMedia,
-    Typography,
-    Avatar } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+    Typography } from '@mui/material';
 import { setActiveNote } from '../../store/element';
 
-const bodyStyle = { 
-    height: '100%', 
-    display: 'flex', 
-    flexDirection: 'column'
-};
 
 export const PokemonCard = ({ 
     name, url }) => {
@@ -26,8 +18,6 @@ export const PokemonCard = ({
     const [ imagePoke, setImagePoke ] = useState('');
 
     const { active } = useSelector( state => state.element );
-
-    const theme = useTheme();
 
     useEffect( () => {
         if( url ) {
