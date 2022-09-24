@@ -63,7 +63,7 @@ export const PokemonFavorite = () => {
     <Grid 
       container 
       spacing={0}>
-    <Grid item xs={6}>
+    <Grid item xs={12} md={6}>
       <Box
         display="flex"
         justifyContent="flex-end"
@@ -77,7 +77,7 @@ export const PokemonFavorite = () => {
           </Typography>
       </Box>
     </Grid>
-    <Grid item xs={6}>
+    <Grid item xs={12} md={6}>
       <Box
         display="flex"
         justifyContent="flex-end"

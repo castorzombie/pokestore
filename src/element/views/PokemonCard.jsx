@@ -4,9 +4,10 @@ import {
     Button,
     Card,
     Box,
-    CardHeader,
+    CardContent,
     CardActions, 
     CardMedia,
+    Typography,
     Avatar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { setActiveNote } from '../../store/element';
@@ -46,34 +47,32 @@ export const PokemonCard = ({
     };
 
     return (
-        <Card
-            sx={ bodyStyle } >
-            <CardMedia
-            component="img"
-            sx={{ pt: '16:9', padding:'1rem 5rem 0 5rem' }}
-            image={ imagePoke } 
-            alt="random"/>
-            <CardHeader
-                avatar={
-                <Avatar sx={{ color: theme.primary }} aria-label="recipe">
-                 id
-                </Avatar>
-                }
-                title={name}
-
-            />
-            <CardActions disableSpacing>
-            <Box 
+        <>
+          <Card sx={{ display: 'flex' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <CardContent sx={{ flex: '1 0 auto' }}>
+              <Typography component="div" variant="h7">
+                { name }
+              </Typography>
+              <Box 
                 display="flex" 
                 justifyContent="center"
                 alignItems="center"
-                style={{ width: '100%'}}>
+                style={{ width: '100%', marginTop:'10px'}}>
                 <Button
                     onClick={ onClickFavorite }
                     variant={ name === active ? 'contained' : 'outlined' }
                     size="small">Favorite</Button>
-            </Box>
-            </CardActions>
+                </Box>
+            </CardContent>
+          </Box>
+          <CardMedia
+            component="img"
+            sx={{ pt: '16:9', padding:'.8rem 4.5rem 0 1rem' }}
+            image={ imagePoke } 
+            alt={ name }
+          />
         </Card>
+        </>
     )
 }

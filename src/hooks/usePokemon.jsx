@@ -50,8 +50,9 @@ export const usePokemon = results => {
             options={ pokeList }
             onChange={ ( event, newValue ) => handleSubmit( event, newValue ) }
             sx={{
+                width: '100%',
                 '& input': {
-                  width: 200,
+                  width: '100%',
                   height: 40,
                   padding: '5px',
                   color: 'white',
@@ -59,7 +60,7 @@ export const usePokemon = results => {
             }}
             renderInput={(params) => (
             <TextField
-                sx={{ width: 200,}}                 
+                sx={{ width: '100%' }}                 
                 {...params} 
                 label="Search" 
                 variant="standard" />

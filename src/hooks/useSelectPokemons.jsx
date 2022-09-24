@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startNewNote, startDeletingNote } from '../store/element/thunks';
 import { setActiveNote } from '../store/element';
 import { useTheme, styled } from '@mui/material/styles';
@@ -35,15 +35,20 @@ const sxBoxStyle = {
 
 const sxFormStyle = { 
   m: 2,
+  /*
   minWidth: '50px',
   '@media (min-width: 780px)' : {
     minWidth: '300px',
-  },
-  width:'auto'
+  }, */
+  width:'100%'
 };
 
 
 const sxSelectStyle = {
+  width: '100%',
+  '@media (min-width: 899px)' : {
+    width: 'auto',
+  }, 
   color: "white",
   '.MuiOutlinedInput-notchedOutline': {
     borderColor: '#fff',
@@ -87,6 +92,8 @@ export const useSelectPokemons = (
   notes = [], 
   options ) => {
 
+  const { active } = useSelector( state => state.element );
+
   const theme = useTheme();
 
   const [ items, setItems ] = useState([]);
@@ -121,7 +128,7 @@ export const useSelectPokemons = (
    
     let isDuplicate = exist !== undefined ? true : false;
 
-    isDuplicate ? deleteItem( exist ) : addItem( value );
+    isDuplicate ? deleteItem( exist, item ) : addItem( value );
 
   };
 
@@ -140,7 +147,7 @@ export const useSelectPokemons = (
 
   };
 
-  const deleteItem = exist => {
+  const deleteItem = ( exist, item ) => {
 
     dispatch(
       startDeletingNote(
@@ -148,11 +155,12 @@ export const useSelectPokemons = (
       )
     );
 
-    dispatch(
-      setActiveNote(
-        'bulbasaur'
-      )
-    );
+    if( item.props.name === active ) 
+      dispatch(
+        setActiveNote(
+          'bulbasaur'
+        )
+      );
     
   };
 
