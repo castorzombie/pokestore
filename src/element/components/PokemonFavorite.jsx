@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { setActiveNote } from '../../store/element/elementSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFetchPokemon } from '../../hooks';
-import { Grid, Container, Typography, Box, CircularProgress } from '@mui/material';
+import { Grid, Container, Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PokemonStats } from './PokemonStats';
 import { PokemonChip } from './PokemonChip';
