@@ -1,7 +1,7 @@
 ## What is POKESTORE?
 pokestore is a serverless dashboard app that searches, lists and store user favorite pokemons. 
 
-### Front End
+### Stack
 - React 18
 - Redux Toolkit
 - Axios
@@ -15,7 +15,7 @@ https://pokemonxstore.netlify.app/
  
 
 ### Install
-- git clone git@github.com:castorzombie/pokestore.git
+- git clone git@&#65279;github.com:castorzombie/pokestore.git
 - npm install
 - npm start
 - npm run test
