@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { setActiveNote } from '../../store/element/elementSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFetchPokemon } from '../../hooks';
-import { Grid, Container, Typography, Box } from '@mui/material';
+import { Grid, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { PokemonStats } from './PokemonStats';
 import { PokemonChip } from './PokemonChip';
@@ -35,7 +35,7 @@ const GridFigure = styled(({...props }) => (
 
 export const PokemonFavorite = () => {
 
-  const { active } = useSelector( state => state.element );
+  const { active, isSaving } = useSelector( state => state.element );
 
   const [ favorite ] = useFetchPokemon( active );
 
@@ -80,12 +80,15 @@ export const PokemonFavorite = () => {
     <Grid item xs={12} md={6}>
       <Box
         display="flex"
-        justifyContent="flex-end"
-        alignItems="center">
+        justifyContent="center"
+        alignItems="center"
+        style={{minHeight:'300px'}}>
+          { isSaving ? 
+            <CircularProgress style={{margin:'0 0 0 40px'}} color='warning' /> : 
           <img 
-            style={{ width: '70%', marginTop: '-40px'}} 
+            style={{ width: '70%', marginTop: '-40px', marginLeft: '40px'}} 
             src={favorite.img} 
-            alt={favorite.name} />
+            alt={favorite.name} /> }
       </Box>
     </Grid>
     <Grid style={{m: '0 0 10px 0'}} xs={12} md={6}>
