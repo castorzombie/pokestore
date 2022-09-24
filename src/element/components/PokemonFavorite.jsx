@@ -88,7 +88,7 @@ export const PokemonFavorite = () => {
             alt={favorite.name} />
       </Box>
     </Grid>
-    <Grid item xs={6}>
+    <Grid style={{m: '0 0 10px 0'}} xs={12} md={6}>
       <Grid container spacing={0}>
         <GridName>ID</GridName>
         <GridFigure> {favorite.id} </GridFigure>
@@ -106,7 +106,7 @@ export const PokemonFavorite = () => {
         </GridFigure>
       </Grid>
     </Grid>
-    <Grid item xs={6}>
+    <Grid item xs={12} md={6}>
       <PokemonStats stats={favorite.stats} />
     </Grid>
   </Grid>
