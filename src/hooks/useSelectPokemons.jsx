@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { startNewNote, startDeletingNote } from '../store/element/thunks';
+import { startDeletingNote } from '../store/element/thunks';
 import { setActiveNote } from '../store/element';
 import { useTheme, styled } from '@mui/material/styles';
-
+import CancelIcon from '@mui/icons-material/Cancel';
+import StarRateIcon from '@mui/icons-material/StarRate';
 import {
   Box, 
   OutlinedInput, 
@@ -12,7 +13,8 @@ import {
   FormControl, 
   Select, 
   Chip, 
-  Checkbox } from '@mui/material';
+  ListItemText,
+  ListItemIcon } from '@mui/material';
 
 const ITEM_HEIGHT = 48;
 
@@ -35,11 +37,6 @@ const sxBoxStyle = {
 
 const sxFormStyle = { 
   m: 2,
-  /*
-  minWidth: '50px',
-  '@media (min-width: 780px)' : {
-    minWidth: '300px',
-  }, */
   width:'100%'
 };
 
@@ -89,87 +86,20 @@ function sxChipStyle( theme, name, active ) {
 
 export const useSelectPokemons = ( 
   label, 
-  notes = [], 
-  options ) => {
+  notes = [] ) => {
 
   const { active } = useSelector( state => state.element );
 
   const theme = useTheme();
 
-  const [ items, setItems ] = useState([]);
-
-  const [ pokes, setPokes ] = useState([]);
-
   const dispatch = useDispatch();
 
-  useEffect( () => {
-    if( Array.isArray( notes ) ){
-      setItems( notes )
-    }
-  },[ notes ] );
-
-  useEffect( () => {
-    if( Array.isArray( options ) ){
-      let result = options.filter( o1 => notes.some( o2 => o1.name === o2.name ));
-      setPokes(result);
-    }
-  },[ options, notes] );
-
-
-  const handleChange = ( event, item ) => {
-
-    const { target: { value } } = event;
-
-    let exist;
-
-    exist = value.find( ( el, i ) => 
-      value.find( ( sub, j ) => 
-        sub.name === el.name && i !== j ) );
-   
-    let isDuplicate = exist !== undefined ? true : false;
-
-    isDuplicate ? deleteItem( exist, item ) : addItem( value );
-
-  };
-
-  const addItem = value => {
-
-    setItems( typeof value === 'string' ? value.split(',') : value )
-
-    let { name, url } = value[value.length - 1];
-
-    dispatch( 
-      startNewNote(
-        name,
-        url 
-      ) 
-    );
-
-  };
-
-  const deleteItem = ( exist, item ) => {
-
-    dispatch(
-      startDeletingNote(
-        exist
-      )
-    );
-
-    if( item.props.name === active ) 
-      dispatch(
-        setActiveNote(
-          'bulbasaur'
-        )
-      );
-    
-  };
-
   const isChecked = name => {
+    return name === active ? { color: 'red' } : { color: 'white' }
+  };
 
-    const inDDBB = items.find( item => item.name === name );
-
-    return inDDBB || items.indexOf( name ) > -1 ? true : false;
-
+  const isAvailable = notes => {
+    return notes.length !== 0 ? { display: 'inline'}: { display: 'none'} 
   };
 
   const handleActive = ( e, name )  => {
@@ -181,60 +111,85 @@ export const useSelectPokemons = (
     );
   }
 
+  const handleDelete = ( e, pokemon )  => {
+
+    e.preventDefault()
+
+    const { name } = pokemon;
+
+    dispatch(
+      startDeletingNote(
+        pokemon
+      )
+    );
+
+    if( name === active ) 
+
+      dispatch(
+        setActiveNote(
+          'bulbasaur'
+        )
+      );
+      
+  }
+
   const AvailablePokemons = () => (
-      <FormControl 
-        sx={ sxFormStyle } 
-        style={ pokes.length !== 0 ? { display: 'inline'}: { display: 'none'} } >
-        <LabelStyled 
-          id={ `input-label-${ label }` } >{ 'pkm' }
-        </LabelStyled>
-        <Select
-          labelId={ `label-${ label }` }
-          id={ `multiple-chip-${ label }` }
-          multiple
-          name={ label }
-          value={ items }
-          onChange={ ( event, item ) => handleChange( event, item ) }
-          input={ 
-            <OutlinedInput 
-              id={ `select-multiple-chip-${ label }` } 
-              label="Chip" 
-            /> }
-          renderValue={ selected => (
-            <Box sx={ sxBoxStyle } >
-              { selected.map( value => (
-                <Chip
-                  key={ value.name }  
-                  label={ value.name } 
-                  sx={ sxChipStyle(theme, value.name, active) }
-                  onMouseDown={ e => e.stopPropagation(e) }
-                  clickable={true}
-                  onClick={ e => handleActive(e,value.name)}
-                />
-              )) }
-            </Box>
-          ) }
-          MenuProps={ MenuProps } 
-          sx={ sxSelectStyle }>
-          { pokes && pokes.map( ( el, index ) => (
-            <MenuItem
-              key={ index }
-              value={ el }
-              name={ el.name }
-              style={ getStyles( el, items, theme ) }
-            >
-              <Checkbox 
-                checked={ isChecked( el.name ) } />
-              { el.name }
-            </MenuItem>
+    <FormControl 
+      sx={ sxFormStyle } 
+      style={ isAvailable( notes ) } >
+      <LabelStyled 
+        id={ `input-label-${ label }` } >{ 'pkm' }
+      </LabelStyled>
+      <Select
+        labelId={ `label-${ label }` }
+        id={ `multiple-chip-${ label }` }
+        multiple
+        name={ label }
+        value={ notes }
+        input={ 
+          <OutlinedInput 
+            id={ `select-multiple-chip-${ label }` } 
+            label="Chip" 
+          /> }
+        renderValue={ selected => (
+          <Box sx={ sxBoxStyle } >
+            { selected.map( value => (
+              <Chip
+                key={ value.name }  
+                label={ value.name } 
+                sx={ sxChipStyle( theme, value.name, active ) }
+                onMouseDown={ e => e.stopPropagation(e) }
+                clickable={true}
+                onClick={ e => handleActive( e, value.name )}
+              />
             )) }
-        </Select>
-      </FormControl>
+          </Box>
+        ) }
+        MenuProps={ MenuProps } 
+        sx={ sxSelectStyle }>
+        { notes && notes.map( ( el, index ) => (
+          <MenuItem
+            key={ index }
+            value={ el }
+            name={ el.name }
+            style={ getStyles( el, notes, theme ) } >
+            <ListItemIcon
+              onMouseDown={ e => e.stopPropagation(e) }
+              onClick={ e => handleDelete( e, el ) }>
+              <CancelIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemIcon 
+              onMouseDown={ e => e.stopPropagation(e) }
+              onClick={ e => handleActive( e, el.name ) }>
+                <StarRateIcon sx={ isChecked( el.name )}  />
+            </ListItemIcon>
+            <ListItemText>{ el.name }</ListItemText>
+          </MenuItem>
+          )) }
+      </Select>
+    </FormControl>
   );
 
-  return [ 
-    AvailablePokemons, 
-    setItems 
-  ]
+  return [ AvailablePokemons ]
 
 };

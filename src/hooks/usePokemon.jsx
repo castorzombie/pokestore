@@ -15,7 +15,7 @@ export const usePokemon = results => {
 
     const [ pokeList, setPokeList ] = useState([]);
 
-    const [inputValue ] = useState('');
+    const [inputValue ] = useState();
 
     const dispatch = useDispatch();
 
