@@ -80,10 +80,10 @@ function getStyles( name, state, theme ) {
   };
 };
 
-function sxChipStyle( theme ) {
+function sxChipStyle( theme, name, active ) {
   return {
     color:theme.primary,
-    backgroundColor: "white"
+    backgroundColor: active === name ? "red" : "white"
   }
 };
 
@@ -172,6 +172,15 @@ export const useSelectPokemons = (
 
   };
 
+  const handleActive = ( e, name )  => {
+    e.preventDefault()
+    dispatch(
+      setActiveNote(
+        name
+      )
+    );
+  }
+
   const AvailablePokemons = () => (
       <FormControl 
         sx={ sxFormStyle } 
@@ -197,7 +206,10 @@ export const useSelectPokemons = (
                 <Chip
                   key={ value.name }  
                   label={ value.name } 
-                  sx={ sxChipStyle }
+                  sx={ sxChipStyle(theme, value.name, active) }
+                  onMouseDown={ e => e.stopPropagation(e) }
+                  clickable={true}
+                  onClick={ e => handleActive(e,value.name)}
                 />
               )) }
             </Box>
