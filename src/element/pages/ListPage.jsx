@@ -3,19 +3,10 @@ import { Card, Grid, Container } from '@mui/material'
 import { useSelector } from 'react-redux';
 import { PokemonCard } from './../views'
 import { PokesLayout } from '../layout/PokesLayout';
-import { useFetchPokemon } from '../../hooks/useFetchPokemon';
-import { useEffect } from 'react';
 
 export const ListPage = () => {
 
     const { notes } = useSelector( state => state.element );
-
-    const { active } = useSelector( state => state.element );
-
-    const [ pokemon ] = useFetchPokemon( active );
-
-    useEffect( () => {
-    },[pokemon])
 
     return (
       <PokesLayout>
